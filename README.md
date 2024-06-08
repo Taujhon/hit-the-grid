@@ -1,14 +1,12 @@
 # HIT THE GRID
 
-Hit the Grid is a simple image grid tool. Very simple, that is. It features minimal grid customizations.
+Hit the Grid is a simple image grid tool. Very simple, that is. It features minimal grid customizations. Works good enough on mobile.
 
 ## What is it lacking for a modern tool?
 
-This is not fully fledged tool, and there is no plans, thus far, to improve it.
-- Images that are uploaded are staying locally in your browser, by the way.
-- The main issue is that the image cannot be edited: no cropping, no effects, etc.
-- The grid is fixed at the center of your image. Cropping your image before loading is advised.  
-- The image with the grid overlay cannot be saved other than screen saptures which may limit the quality to your device's screen resolution.
+This is not a fully fledged tool, and there is no plans, thus far, to improve it. Images that are uploaded are staying locally in your browser, by the way.
+- Your image cannot be edited: no cropping, no effects, etc. Cropping your image before loading is advised.  
+- The image with the grid overlay cannot be saved by any means other than screen captures which may limit the quality to your device's screen resolution. As far as I know. 
 
 ## Why is it made?
 

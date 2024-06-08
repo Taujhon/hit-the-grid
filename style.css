@@ -4,6 +4,8 @@
 
 html,
 body {
+  height: 100vh;
+  width: 100vw;
   margin: 0;
   display: flex;
 
@@ -17,18 +19,27 @@ body {
   flex-direction: column;
 }
 
+#title {
+  text-align: center;
+  font-size: 75%;
+}
+
 #image-grid {
   display: inline-block;
   height: 80vh;
   width: 90vw;
 
+  border-radius: 8px;
   position: relative;
-  outline: 4px solid #ada;
+  outline: 2px solid #07f;
   overflow: hidden;
+
+  cursor: move;
 }
 
 #image-grid * {
   position: absolute;
+  pointer-events: none;
 }
 
 #image {
@@ -44,8 +55,6 @@ body {
   left: 50%;
 
   transform: translate(-50%, -50%);
-
-  pointer-events: none;
 }
 
 #menu,
@@ -58,6 +67,7 @@ body {
 #menu {
   line-height: 24px;
   font-size: 300%;
+  cursor: none;
 }
 
 #menu:hover + #controls,
@@ -76,29 +86,40 @@ body {
 
 #controls div :nth-child(1) {
   display: inline-block;
-  width: 128px;
+  width: 40%;
 
   text-align: right;
 }
 
 #controls div :nth-child(2) {
   display: inline-block;
-  width: 48px;
+  width: 30%;
 
   text-align: center;
 }
 
 #controls div :nth-child(3) {
   display: inline-block;
-  width: 16px;
+  width: 10%;
 }
 
 #controls #actions button {
-  width: 100%;
+  width: calc(100% - 8px);
   height: 32px;
   margin: 4px;
 
   text-align: center;
+  cursor: pointer;
+}
+
+#controls div input[type=color] {
+  cursor: pointer;
+}
+
+#controls div input[type=range] {
+  width: 90%;
+  padding: 16px 0;
+  margin: 0 5%;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -111,4 +132,11 @@ input[type=number]::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+@media (orientation: portrait) {
+  #menu:hover + #controls,
+  #controls:hover {
+    width: 100%;
+  }
 }

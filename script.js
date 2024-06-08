@@ -1,3 +1,4 @@
+const IMAGE_GRID = document.getElementById('image-grid');
 const IMAGE = document.getElementById('image');
 const GRID = document.getElementById('grid');
 
@@ -15,8 +16,10 @@ const IN_CLR = document.getElementById('color');
 
 const BTN_UPLOAD = document.getElementById('upload');
 const BTN_EXPAND = document.getElementById('expand');
+const BTN_CENTER = document.getElementById('center');
+const BTN_SOURCE = document.getElementById('source');
 
-const UPDATE_ONKEYUP = [
+const UPDATE_ONTYPE = [
   ROWS,
   COLUMNS,
   GRID_SIZE,
@@ -32,10 +35,10 @@ const UPDATE_ONINPUT = [
 ];
 
 let rows = 8;
-let columns = 8;
+let columns = 6;
 let gridSize = 64;
 let thickness = 2;
-let color = '#000000';
+let color = '#003555';
 let titleHidden = false;
 
 window.onload = () => {
@@ -50,8 +53,13 @@ window.onload = () => {
   IN_THK.value = thickness;
   IN_CLR.value = color;
 
-  draw();
+  UPDATE_ONTYPE.forEach(el => el.blur());
+
+  drawGrid();
+  centerGrid();
 }
+
+// input element handlers
 
 ROWS.onkeyup = () => {
   rows = ROWS.value;
@@ -97,11 +105,13 @@ IN_CLR.oninput = () => {
   color = IN_CLR.value;
 }
 
-UPDATE_ONKEYUP.forEach(input =>
-    input.addEventListener('keyup', draw));
+UPDATE_ONTYPE.forEach(input =>
+    input.addEventListener('keyup', drawGrid));
 
 UPDATE_ONINPUT.forEach(input =>
-    input.addEventListener('input', draw));
+    input.addEventListener('input', drawGrid));
+
+// button handlers
 
 BTN_UPLOAD.onclick = () => IN_IMG.click();
 
@@ -115,7 +125,6 @@ IN_IMG.oninput = () => {
 
 BTN_EXPAND.onclick = () => {
   const TITLE = document.getElementById('title');
-  const IMAGE_GRID = document.getElementById('image-grid');
 
   if (!titleHidden) {
     TITLE.style.display = 'none';
@@ -132,7 +141,7 @@ BTN_EXPAND.onclick = () => {
     TITLE.style.display = 'block';
     IMAGE_GRID.style.height = '80vh';
     IMAGE_GRID.style.width = '90vw';
-    BTN_EXPAND.textContent = 'expand';
+    BTN_EXPAND.textContent = 'maximize';
 
     gridSize *=
         (window.innerWidth > window.innerHeight)
@@ -144,10 +153,17 @@ BTN_EXPAND.onclick = () => {
     titleHidden = false;
   }
 
-  draw();
+  drawGrid();
 }
 
-function draw() {
+BTN_CENTER.onclick = center;
+
+BTN_SOURCE.onclick = () =>
+    window.open('https://github.com/taujhon/hit-the-grid', '_blank');
+
+// draw grid
+
+function drawGrid() {
   const C = GRID.getContext('2d');
 
   GRID.height = rows * gridSize;
@@ -168,4 +184,62 @@ function draw() {
     C.lineTo(GRID.width, i * gridSize);
     C.stroke();
   }
+}
+
+function centerGrid() {
+  const imageGridBound = IMAGE_GRID.getBoundingClientRect();
+  GRID.style.left = '50%';
+  GRID.style.top = '50%';
+}
+
+// handle grid dragging
+
+const mouse = { xi: 0, yi: 0, xf: 0, yf: 0 }
+const touch = { xi: 0, yi: 0, xf: 0, yf: 0 }
+const grid = { offsetX: 0, offsetY: 0 };
+
+IMAGE_GRID.onmousedown = getInitialPos;
+IMAGE_GRID.onmousemove = getPos;
+IMAGE_GRID.onmouseup = getPos;
+
+function getInitialPos(e) {
+  mouse.xi = e.offsetX;
+  mouse.yi = e.offsetY;
+ 
+  grid.offsetX = GRID.offsetLeft;
+  grid.offsetY = GRID.offsetTop;
+}
+
+function getPos(e) {
+  if (e.buttons != 1) return;
+
+  mouse.xf = e.offsetX;
+  mouse.yf = e.offsetY;
+
+  GRID.style.left = `${ grid.offsetX + mouse.xf - mouse.xi }px`;
+  GRID.style.top = `${ grid.offsetY + mouse.yf - mouse.yi }px`;
+}
+
+IMAGE_GRID.ontouchstart = getInitialPosTouch;
+IMAGE_GRID.ontouchmove = getPosTouch;
+// IMAGE_GRID.ontouchend = getPosTouch;
+
+function getInitialPosTouch(e) {
+  const touchObj = e.touches[e.touches.length - 1];
+
+  touch.xi = touchObj.pageX - e.target.offsetLeft;
+  touch.yi = touchObj.pageY - e.target.offsetTop;
+
+  grid.offsetX = GRID.offsetLeft;
+  grid.offsetY = GRID.offsetTop;
+}
+
+function getPosTouch(e) {
+  const touchObj = e.touches[e.touches.length - 1];
+
+  touch.xf = touchObj.pageX - e.target.offsetLeft;
+  touch.yf = touchObj.pageY - e.target.offsetTop;
+
+  GRID.style.left = `${ grid.offsetX + touch.xf - touch.xi }px`;
+  GRID.style.top = `${ grid.offsetY + touch.yf - touch.yi }px`;
 }
