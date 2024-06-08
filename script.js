@@ -128,8 +128,8 @@ BTN_EXPAND.onclick = () => {
 
   if (!titleHidden) {
     TITLE.style.display = 'none';
-    IMAGE_GRID.style.height = '100vh';
-    IMAGE_GRID.style.width = '100vw';
+    IMAGE_GRID.style.height = '100%';
+    IMAGE_GRID.style.width = '100%';
     BTN_EXPAND.textContent = 'show title';
 
     gridSize *=
@@ -139,8 +139,8 @@ BTN_EXPAND.onclick = () => {
     titleHidden = true;
   } else {
     TITLE.style.display = 'block';
-    IMAGE_GRID.style.height = '80vh';
-    IMAGE_GRID.style.width = '90vw';
+    IMAGE_GRID.style.height = '80%';
+    IMAGE_GRID.style.width = '90%';
     BTN_EXPAND.textContent = 'maximize';
 
     gridSize *=
