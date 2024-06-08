@@ -156,7 +156,7 @@ BTN_EXPAND.onclick = () => {
   drawGrid();
 }
 
-BTN_CENTER.onclick = center;
+BTN_CENTER.onclick = centerGrid;
 
 BTN_SOURCE.onclick = () =>
     window.open('https://github.com/taujhon/hit-the-grid', '_blank');
